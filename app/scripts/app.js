@@ -12,6 +12,10 @@ angular.module('jSonarApp', [
         templateUrl: 'views/main.html',
         controller: 'MainCtrl'
       })
+      .when('/fileUpload', {
+        templateUrl: 'views/fileUpload.html',
+        controller: 'FileuploadCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });
