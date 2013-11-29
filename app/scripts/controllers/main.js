@@ -7,4 +7,5 @@ angular.module('jSonarApp')
       'AngularJS',
       'Karma'
     ];
+    $scope.fileUploadPath = '/views/fileUpload.html';
   });
