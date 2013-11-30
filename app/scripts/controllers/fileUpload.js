@@ -2,12 +2,44 @@
 
 angular.module('jSonarApp')
   .controller('FileuploadCtrl', function ($scope, $http) {
+
     // Start file upload controller
     $scope.submit = function() {
-      $http.jsonp($scope.sourceURL)
+      //make GET request to inputted URL
+      $http.get($scope.sourceURL)
+        //On successful call...
         .success(function(data) {
-          //log API data
+          //log response
           console.log('Submitted data:', data);
+          // and run through the data...
+          angular.forEach(data, function(value, index){
+            // ...and if you find an object
+            if (typeof value === 'object'){
+              // log it
+              console.log('found an object!', index, value);
+
+              // ...then run through that object.
+              angular.forEach(value, function(value, index){
+                console.log('index',index);
+                console.log('value',value);
+                //If you find a deeper object..
+                if (typeof value === 'object'){
+                  //log it (again)
+                  console.log('found a deeper object!', index, value);
+                  //and run through it (again)
+                  angular.forEach(value, function(value, index){
+                    console.log('deeper index',index);
+                    console.log('deeper value',value);
+                  });
+                }
+              });
+            }
+          });
+        })
+        // if it returns an error
+        .error(function(){
+          // log error
+          window.alert('There was an error! Check the console (cmd + shft + J');
         });
     };
   // End file upload controller
