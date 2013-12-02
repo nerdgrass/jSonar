@@ -1,11 +1,31 @@
 <div ng-controller="FileuploadCtrl">
-  <form ng-submit="submit()">
-    <input 
-      placeholder="Type in URL of JSON file" 
-      type="text" 
-      ng-model="sourceURL" 
-      name="sourceURL" 
-    />
-    <input type="submit" id="submit" class="lrg-btn">
-  </form>
+  <div class="jumbotron">
+    <h1>'Allo, 'Allo!</h1>
+     <!-- File Upload -->
+
+      <form ng-submit="submit()">
+        <input 
+          placeholder="Type in URL of JSON file" 
+          type="text" 
+          ng-model="sourceURL" 
+          name="sourceURL" 
+        />
+        <input type="submit" id="submit" class="lrg-btn">
+      </form>
+  </div>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th ng-repeat="column in columns">{{column}}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="row in rows">
+        <td ng-repeat="cells in row">{{cell}}</td>
+      </tr>
+    </tbody>
+  </table>
+
 </div>
+

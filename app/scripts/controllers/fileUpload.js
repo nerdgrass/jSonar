@@ -2,9 +2,15 @@
 
 angular.module('jSonarApp')
   .controller('FileuploadCtrl', function ($scope, $http) {
-
     // Start file upload controller
     $scope.submit = function() {
+
+      $scope.columns = [];
+      $scope.row = [];
+      $scope.rows = [];
+      $scope.cells = [];
+      $scope.cell = [];
+
       //make GET request to inputted URL
       $http.get($scope.sourceURL)
         //On successful call...
@@ -17,24 +23,56 @@ angular.module('jSonarApp')
             if (typeof value === 'object'){
               // log it
               console.log('found an object!', index, value);
-
               // ...then run through that object.
               angular.forEach(value, function(value, index){
-                console.log('index',index);
-                console.log('value',value);
+
                 //If you find a deeper object..
                 if (typeof value === 'object'){
                   //log it (again)
                   console.log('found a deeper object!', index, value);
                   //and run through it (again)
                   angular.forEach(value, function(value, index){
-                    console.log('deeper index',index);
-                    console.log('deeper value',value);
+                    // to push each key to columns array
+                    $scope.columns.push(index);
+                    //and make sure columns array only has unique strings
+                    $scope.columns = jQuery.unique( $scope.columns );
+
+                    //then push the cell data to a cell
+                    var cellValue = value;
+                    console.log('cellValue: ',cellValue);
+                    var cell = {
+                      'cell': cellValue
+                    };
+                    console.log('cell: ',cell);
+                    $scope.row.push(cell);
+                    // jQuery.extend($scope.row, cell,{} );
+                    console.log('Cell added to Row: ',$scope.row);
+
+                    // console.log('Ran through deeper object');
+                    // console.log('Value: ', value);
+
                   });
+
+                }else {
+                  //Push each value to columns array
+                  $scope.columns.push(index);
+                  //and make sure columns array only has unique strings
+                  $scope.columns = jQuery.unique( $scope.columns );
                 }
-              });
+                //log what's in the row
+                console.log('Row :', $scope.row);
+                //push it to the rows array as an object
+                $scope.rows.push({
+                  'Row': $scope.row
+                });
+                //clear the variable
+                $scope.row = [];
+                });
+
             }
+
           });
+        console.log('Rows :', $scope.rows);
         })
         // if it returns an error
         .error(function(){
@@ -42,9 +80,14 @@ angular.module('jSonarApp')
           window.alert('There was an error! Check the console (cmd + shft + J');
         });
     };
-  // End file upload controller
+    // End file upload controller
   });
 
+// $scope.row.push(value);
+// console.log('value pushed to row:',$scope.row);
+// $scope.rows.push({
+//   'row':$scope.row
+// });
 
 // Old attempts
   // var FileuploadCtrl = [ '$scope', '$upload', function($scope, $upload) {
